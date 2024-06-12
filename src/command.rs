@@ -29,34 +29,20 @@ impl Command {
     match self.command_type {
       ValidCommandType::GET => {
         let result = get_value_safe(data, self.selected_key);
-        match stream.write(result.as_bytes()) {
-          Ok(_) => {}
-          Err(_) => {}
-        }
+        let _ = stream.write(result.as_bytes());
       }
 
       ValidCommandType::SET => {
         set_value_safe(&mut data, self.selected_key, self.insert_data);
-        match stream.write(b"Value saved!") {
-          Ok(_) => {}
-          Err(_) => {}
-        }
+        let _ = stream.write(b"Value saved!");
       }
 
       ValidCommandType::DELETE => {
-        match delete_value_safe(&mut data, self.selected_key) {
-          Some(_) => {
-            match stream.write(b"Value deleted!") {
-              Ok(_) => {}
-              Err(_) => {}
-            }
-          }
-          None => {
-            match stream.write(b"ERROR: Invalid key!") {
-              Ok(_) => {}
-              Err(_) => {}
-            }
-          }
+        let delete_result: bool = delete_value_safe(&mut data, self.selected_key);
+        if delete_result {
+          let _ = stream.write(b"Value deleted!");
+        } else {
+          let _ = stream.write(b"ERROR: Invalid key!");
         }
       }
     }

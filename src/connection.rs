@@ -27,18 +27,12 @@ pub fn handle_connection(mut stream: TcpStream, mut data: &mut Store) {
   }
   if command_type.len() == 0 {
       // Return error to sender -- empty command
-      match stream.write(b"ERROR: Please specify a command!") {
-        Ok(_) => {}
-        Err(_) => {}
-      }
+      let _ = stream.write(b"ERROR: Please specify a command!");
       return
   }
   if get_command_type(command_type).is_err() {
     // Return error to sender -- invalid
-    match stream.write(b"ERROR: Invalid command!") {
-      Ok(_) => {}
-      Err(_) => {}
-    }
+    let _ = stream.write(b"ERROR: Invalid command!");
     return
   }
 
@@ -48,10 +42,7 @@ pub fn handle_connection(mut stream: TcpStream, mut data: &mut Store) {
         selected_key = skey
       }
       None => {
-        match stream.write(b"ERROR: No key selected!") {
-          Ok(_) => {}
-          Err(_) => {}
-        }
+        let _ = stream.write(b"ERROR: No key selected!");
         return
       },
   }
