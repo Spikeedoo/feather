@@ -47,14 +47,6 @@ pub fn delete_value_safe(store: &mut Store, key: String) -> bool {
   } else {
     false
   }
-  // if let Some(d) = data.get(&key) {
-  //   // Lock mutex then delete
-  //   let _delete_data = d.data.lock().unwrap();
-  //   data.remove(&key);
-  //   return true
-  // } else {
-  //   return false
-  // }
 }
 
 // Unit Tests
